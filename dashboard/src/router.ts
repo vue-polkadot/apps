@@ -63,7 +63,7 @@ export default new Router({
     {
       path: '/democracy',
       name: 'democracy',
-      component: () => import('./components/democracy/Democracy.vue'),
+      component: () => import('./components/democracy/DemocracyWrapper.vue'),
       beforeEnter: apiEnabled,
     },
     {
