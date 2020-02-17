@@ -10,16 +10,16 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Democracy from './Democracy.vue'
-import Referendums from './Referendums.vue'
-import Proposals from './Proposals.vue'
+import Democracy from './Democracy.vue';
+import Referendums from './Referendums.vue';
+import Proposals from './Proposals.vue';
 
 @Component({
   components: {
     Democracy,
     Referendums,
-    Proposals
-  }
+    Proposals,
+  },
 })
 export default class DemocracyWrapper extends Vue {
   public activeTab: number = 0;

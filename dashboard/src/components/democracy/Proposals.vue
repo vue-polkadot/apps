@@ -6,12 +6,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Proposal from './Proposal.vue'
+import Proposal from './Proposal.vue';
 
 @Component({
   components: {
-    Proposal
-  }
+    Proposal,
+  },
 })
 export default class Proposals extends Vue {
   private proposals: any[] = [];
@@ -24,7 +24,7 @@ export default class Proposals extends Vue {
 
   public async loadProposals() {
     if ((this as any).$http.api) {
-      const newProposals = await (this as any).$http.api.derive.democracy.proposals()
+      const newProposals = await (this as any).$http.api.derive.democracy.proposals();
       console.log('newProposals', newProposals);
       this.proposals = newProposals;
       

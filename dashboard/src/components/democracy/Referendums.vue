@@ -6,12 +6,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Referendum from './Referendum.vue'
+import Referendum from './Referendum.vue';
 
 @Component({
   components: {
-    Referendum
-  }
+    Referendum,
+  },
 })
 export default class Referendums extends Vue {
   private referendums: any[] = [];
@@ -24,7 +24,7 @@ export default class Referendums extends Vue {
 
   public async loadReferendas() {
     if ((this as any).$http.api) {
-      const referendums = await (this as any).$http.api.derive.democracy.referendums()
+      const referendums = await (this as any).$http.api.derive.democracy.referendums();
       console.log('referendas', referendums);
       this.referendums = referendums;
       
