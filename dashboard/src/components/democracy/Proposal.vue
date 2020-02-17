@@ -7,14 +7,16 @@
         <div>{{ proposal.proposer.toString() }}</div>
       </div>
       <div class="proposal-balance">
-      <div>Locked</div>
-      <div>{{ proposal.balance }}</div>
+        <div>Locked</div>
+        <div>{{ proposal.balance }}</div>
       </div>
       <div class="proposal-proposal" @click="toggleArgsVisible">
         <div>
-          {{ proposal.proposal.sectionName }}.{{
-            proposal.proposal.methodName
-          }}
+          <b>
+            {{ proposal.proposal.sectionName }}.{{
+              proposal.proposal.methodName
+            }}
+          </b>
         </div>
         <div
           v-for="(doc, index) in proposal.proposal.meta['documentation']"
@@ -23,23 +25,33 @@
           {{ doc }}
         </div>
       </div>
-    
     </div>
     <div v-if="isArgsVisible">
-        <div v-for="second in proposal.seconds" :key="second.toString()">
-          {{ second }}
-        </div>
-        <b-message type="is-info">  
-            <label><b>Proposal Hash: </b></label><span>{{ proposal.hash }}</span>
-        </b-message>
+      <Argurments
+        :args="enhanceArgs()"
+        @selected="handleSelectedArguments"
+        :defaultValues="proposal.proposal.args"
+        disabled
+      />
+      <div v-for="second in proposal.seconds" :key="second.toString()">
+        {{ second }}
       </div>
+      <b-message type="is-info">
+        <label><b>Proposal Hash: </b></label><span>{{ proposal.hash }}</span>
+      </b-message>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
+import Argurments from '@/components/extrinsics/Arguments.vue';
 
-@Component
+@Component({
+  components: {
+    Argurments,
+  },
+})
 export default class Proposal extends Vue {
   @Prop() public proposal: any;
 
@@ -47,6 +59,14 @@ export default class Proposal extends Vue {
 
   public toggleArgsVisible() {
     this.isArgsVisible = !this.isArgsVisible;
+  }
+
+  public handleSelectedArguments() {
+    return;
+  }
+
+  public enhanceArgs() {
+    return this.proposal.proposal.meta.args;
   }
 }
 </script>
