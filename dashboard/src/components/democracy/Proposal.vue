@@ -10,7 +10,11 @@
         <div>Locked</div>
         <div>{{ proposal.balance }}</div>
       </div>
-      <div class="proposal-proposal" @click="toggleArgsVisible" v-if="proposal.proposal">
+      <div
+        class="proposal-proposal"
+        @click="toggleArgsVisible"
+        v-if="proposal.proposal"
+      >
         <div>
           <b>
             {{ proposal.proposal.sectionName }}.{{
@@ -25,24 +29,23 @@
           {{ doc }}
         </div>
       </div>
-			<div v-else >
-				<b-button type="is-primary" icon-left="plus" disabled>
-                Preimage (Not implemented yet 😢)
-            </b-button>
-			</div>
+      <div v-else>
+        <b-button type="is-primary" icon-left="plus" disabled>
+          Preimage (Not implemented yet 😢)
+        </b-button>
+      </div>
+      <Seconds :accounts="proposal.seconds" />
     </div>
     <div v-if="isArgsVisible">
       <Argurments
-				v-if="proposal.proposal"
+        v-if="proposal.proposal"
         :args="enhanceArgs()"
         @selected="handleSelectedArguments"
         :defaultValues="proposal.proposal.args"
         disabled
       />
-      <div v-for="second in proposal.seconds" :key="second.toString()">
-        {{ second }}
-      </div>
-      <b-message type="is-info">
+
+      <b-message class="proposal-hash" type="is-info">
         <label><b>Proposal Hash: </b></label><span>{{ proposal.hash }}</span>
       </b-message>
     </div>
@@ -52,10 +55,12 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import Argurments from '@/components/extrinsics/Arguments.vue';
+import Seconds from './Seconds.vue';
 
 @Component({
   components: {
     Argurments,
+    Seconds,
   },
 })
 export default class Proposal extends Vue {
@@ -90,5 +95,9 @@ export default class Proposal extends Vue {
 
 .proposal-index {
   font-size: 2em;
+}
+
+.proposal-hash {
+  margin-top: 1em;
 }
 </style>
