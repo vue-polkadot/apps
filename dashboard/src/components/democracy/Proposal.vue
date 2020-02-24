@@ -7,7 +7,7 @@
         <div>{{ proposal.proposer.toString() }}</div>
       </div>
       <div class="proposal-balance">
-        <div>Locked</div>
+        <div><b>Locked: </b></div>
         <div>{{ proposal.balance }}</div>
       </div>
       <div
@@ -30,8 +30,8 @@
         </div>
       </div>
       <div v-else>
-        <b-button type="is-primary" icon-left="plus" disabled>
-          Preimage (Not implemented yet 😢)
+        <b-button type="is-dark" icon-left="plus" disabled>
+          Preimage
         </b-button>
       </div>
       <Seconds :accounts="proposal.seconds" />
@@ -90,7 +90,17 @@ export default class Proposal extends Vue {
 .card-content.proposal-content {
   display: flex;
   justify-content: space-between;
-  padding: 1em;
+  padding: 0.5em;
+  flex-flow: row wrap;
+}
+
+.proposal-proposer {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.proposal-proposal {
+	cursor: pointer;
 }
 
 .proposal-index {

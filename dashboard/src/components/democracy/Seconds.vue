@@ -19,7 +19,7 @@
 						</b-icon>
 						<div class="media-content">
 							<h3>Second {{ index }}</h3>
-							<small>{{ acc }}</small>
+							<small>{{ acc.toString().substring(0, 4) }}</small>
 						</div>
 					</div>
 				</b-dropdown-item>

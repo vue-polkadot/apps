@@ -11,10 +11,10 @@
         <div>{{ referendum.proposal.meta["documentation"].join('') }}</div>
       </div>
       <div class="proposal-meta">
-        <div>Remaining: <div>{{remaining}} </div></div>
-        <div>Activate at: <div>{{enactBlock}} </div></div>
-        <div>Aye ({{state.voteCountAye}}): <div>{{state.votedAye}} KSM</div></div>
-        <div>Nay ({{state.voteCountNay}}): <div>{{state.votedNay}} KSM</div></div>
+        <div><b>Remaining: </b><div>{{remaining}} </div></div>
+        <div><b>Activate at: </b><div>{{enactBlock}} </div></div>
+        <div><b>Aye ({{state.voteCountAye}}): </b><div>{{state.votedAye}} KSM</div></div>
+        <div><b>Nay ({{state.voteCountNay}}): </b><div>{{state.votedNay}} KSM</div></div>
       </div>
     </div>
     <div v-if="isArgsVisible">
@@ -87,7 +87,8 @@ export default class Referendum extends Vue {
 .card-content.proposal-content {
   display: flex;
   justify-content: space-between;
-  padding: 1em;
+  padding: 0.5em;
+  flex-flow: row wrap;
 }
 
 .proposal-index {
@@ -99,11 +100,13 @@ export default class Referendum extends Vue {
   cursor: pointer;
   flex-grow: 1;
 	padding: 0 0.5em;
+	max-width: 50em;
 }
 
 .proposal-meta {
     display: flex;
     flex-grow: 1;
+		flex-flow: row wrap;
 }
 
 .proposal-meta div {
