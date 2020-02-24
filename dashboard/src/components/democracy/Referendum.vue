@@ -1,24 +1,21 @@
 <template>
-  <div class="card proposal-card">
+  <div class="card proposal-card" v-if="shouldRender">
     <div class="card-content proposal-content">
       <div class="proposal-index">{{ referendum.index.toString() }}</div>
       <div class="proposal-proposal" @click="toggleArgsVisible">
-        <div>
+        <div><b>
           {{ referendum.proposal.sectionName }}.{{
             referendum.proposal.methodName
           }}
-        </div>
-        <div>{{ referendum.proposal.meta["documentation"] }}</div>
+        </b></div>
+        <div>{{ referendum.proposal.meta["documentation"].join('') }}</div>
       </div>
       <div class="proposal-meta">
-        <div>Remaining: <div>0 KSM</div></div>
-        <div>Activate at: <div>0 KSM</div></div>
-        <div>Aye ({{state.voteCountAye}}): <div>{{state.votedAye}}</div></div>
-        <div>Nay ({{state.voteCountNay}}): <div>{{state.votedNay}}</div></div>
+        <div>Remaining: <div>{{remaining}} </div></div>
+        <div>Activate at: <div>{{enactBlock}} </div></div>
+        <div>Aye ({{state.voteCountAye}}): <div>{{state.votedAye}} KSM</div></div>
+        <div>Nay ({{state.voteCountNay}}): <div>{{state.votedNay}} KSM</div></div>
       </div>
-      <!--  <div class="proposal-proposal">
-        <div>{{ referendum.proposal.callIndex }}</div>
-      </div> -->
     </div>
     <div v-if="isArgsVisible">
       <Argurments
@@ -35,9 +32,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import Argurments from '@/components/extrinsics/Arguments.vue';
-import BN from 'bn.js';
+import referendumState from './referendumState';
 import Connector from '@vue-polkadot/vue-api';
 
 @Component({
@@ -48,43 +45,23 @@ import Connector from '@vue-polkadot/vue-api';
 export default class Referendum extends Vue {
   @Prop() public referendum: any;
 
+	private shouldRender: boolean = true;
   private isArgsVisible: boolean = true;
-  private state: any = {};
+	private state: any = {};
+	private bestNumber: any = {};
+	private enactBlock: any = {};
+	private remaining: any = {};
 
-  public async mouted() {
-    console.log('mouted');
-    
-    if (Connector.getInstance()) {
-      const votesFor = await Connector.getInstance().api.derive.democracy.referendumVotesFor(this.referendum.index);
-      console.warn(votesFor);
-      this.state = votesFor.reduce((state: any, { balance, vote }: { balance: any, vote: any }) => {
-        const isDefault = vote.conviction.index === 0;
-        const counted = balance
-          .muln(isDefault ? 1 : vote.conviction.index)
-          .divn(isDefault ? 10 : 1);
+	public async mounted() {
+		this.state = await referendumState(this.referendum.index);
+		this.bestNumber = await Connector.getInstance().api.derive.chain.bestNumber();
+		this.enactBlock = this.referendum.info.end.add(this.referendum.info.delay);
+		this.remaining = this.referendum.info.end.sub(this.bestNumber).subn(1)
 
-        if (vote.isAye) {
-          state.voteCountAye++;
-          state.votedAye = state.votedAye.add(counted);
-        } else {
-          state.voteCountNay++;
-          state.votedNay = state.votedNay.add(counted);
-        }
-
-        state.voteCount++;
-        state.votedTotal = state.votedTotal.add(counted);
-
-        return state;
-      }, {
-        voteCount: 0,
-        voteCountAye: 0,
-        voteCountNay: 0,
-        votedAye: new BN(0),
-        votedNay: new BN(0),
-        votedTotal: new BN(0),
-      });
-    }
-  }
+		if (!this.bestNumber || this.referendum.info.end.sub(this.bestNumber).lten(0)) {
+    	this.shouldRender = false;
+  	}
+	}
 
   public toggleArgsVisible() {
     this.isArgsVisible = !this.isArgsVisible;
@@ -121,12 +98,16 @@ export default class Referendum extends Vue {
 .proposal-proposal {
   cursor: pointer;
   flex-grow: 1;
+	padding: 0 0.5em;
 }
 
 .proposal-meta {
     display: flex;
     flex-grow: 1;
-    justify-content: space-around;
+}
+
+.proposal-meta div {
+	padding: 0 0.3em;
 }
 
 .proposal-hash {

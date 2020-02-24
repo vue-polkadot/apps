@@ -10,7 +10,7 @@
         <div>Locked</div>
         <div>{{ proposal.balance }}</div>
       </div>
-      <div class="proposal-proposal" @click="toggleArgsVisible">
+      <div class="proposal-proposal" @click="toggleArgsVisible" v-if="proposal.proposal">
         <div>
           <b>
             {{ proposal.proposal.sectionName }}.{{
@@ -25,9 +25,15 @@
           {{ doc }}
         </div>
       </div>
+			<div v-else >
+				<b-button type="is-primary" icon-left="plus" disabled>
+                Preimage (Not implemented yet 😢)
+            </b-button>
+			</div>
     </div>
     <div v-if="isArgsVisible">
       <Argurments
+				v-if="proposal.proposal"
         :args="enhanceArgs()"
         @selected="handleSelectedArguments"
         :defaultValues="proposal.proposal.args"
