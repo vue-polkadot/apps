@@ -5,6 +5,11 @@
 		<Dropdown mode="accounts" @selected="handleAccountSelection" />
 		<VoteDropdown @selected="handler" />
 		<Conviction @selected="handler" />
+     <Balance
+      v-if="currentVote"
+      :argument="{ name: 'balance', type: 'balance' }"
+      @selected="handleValue"
+    />
 		<b-field label="password 🤫 magic spell" class="password-wrapper">
       <b-input v-model="password" type="password" password-reveal> </b-input>
     </b-field>
@@ -35,6 +40,8 @@ import keyring from '@vue-polkadot/vue-keyring';
 import { notificationTypes,  showNotification } from '@/utils/notification';
 import exec from '@/utils/transactionExecutor';
 import ViewTransaction from '../ViewTransaction.vue';
+import { isCurrentVote } from '@/components/democracy/convictionUtil';
+import Balance from '@/params/components/Balance.vue';
 
 
 @Component({
@@ -43,7 +50,8 @@ import ViewTransaction from '../ViewTransaction.vue';
 		Dropdown,
 		VoteDropdown,
 		Conviction,
-		ViewTransaction,
+    ViewTransaction,
+    Balance
 	},
 })
 export default class Vote extends Vue {
@@ -51,12 +59,17 @@ export default class Vote extends Vue {
 	@Prop() public referendumId!: any;
 	private account: any = {};
 	private password: string = '';
-	private tx: string = '';
+  private tx: string = '';
+  private balance: number = 0;
 	
 	private vote: any = {
 		aye: null,
 		conviction: null,
-	};
+  };
+  
+  public currentVote(): boolean {
+    return isCurrentVote();
+  }
 
   public handleAccountSelection(account: KeyringPair) {
 		this.account = account;
@@ -77,9 +90,14 @@ export default class Vote extends Vue {
 		
 		try {
 			showNotification('Dispatched');
-			const { referendumId, vote } = this;
-			const { aye, conviction } = vote;
-			this.tx = await exec(this.account, this.password, api.tx.democracy.vote, [referendumId, { aye, conviction }]);
+      const { referendumId, vote } = this;
+      const balance = 10000000;
+      const { aye, conviction } = vote;
+      console.log(aye, conviction, balance)
+      const params = this.currentVote()
+                ? [referendumId, { Standard: { balance, vote: { aye, conviction } } }]
+                : [referendumId, { aye, conviction }]
+			this.tx = await exec(this.account, this.password, api.tx.democracy.vote, params);
 			showNotification(this.tx, notificationTypes.success);
 		} catch (e) {
 			showNotification(e, notificationTypes.danger);
@@ -88,7 +106,15 @@ export default class Vote extends Vue {
 	}
 
 	private isVoteEmpty() {
-		return !this.vote.aye || this.vote.conviction === null;
+		return this.vote.aye === null || this.vote.conviction === null;
+  }
+  
+  public handleValue(value: any) {
+    console.log(value);
+    
+    Object.keys(value).map((item) => {
+      (this as any)[item] = value[item];
+    });
 	}
   
 }

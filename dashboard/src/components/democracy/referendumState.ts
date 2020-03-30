@@ -1,7 +1,7 @@
 import BN from 'bn.js';
 import Connector from '@vue-polkadot/vue-api';
 
-import { DerivedReferendumVote, DerivedReferendum } from '@polkadot/api-derive/types';
+import { DerivedReferendumVote } from '@polkadot/api-derive/types';
 import { ReferendumInfoTo239, ReferendumStatus, Tally } from '@polkadot/types/interfaces';
 
 interface State {
