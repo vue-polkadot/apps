@@ -108,6 +108,10 @@ import formatBalance from '../../utils/formatBalance';
   },
 })
 export default class Keypair extends Vue {
+
+  get balance() {
+    return formatBalance(this.balanceAvailable, this.tokenSymbol, false);
+  }
   public nonce: number = 0;
   public balanceAvailable: string = '';
   public explorerAccount: string = 'https://polkascan.io/pre/kusama/account/';
@@ -115,9 +119,6 @@ export default class Keypair extends Vue {
   public isEditingTags: boolean = false;
   public newName: string = '';
   public newTags: any = null;
-  private subs: any[] = [];
-  private chainProperties: any;
-  private tokenSymbol: any = Object.entries(this.$store.state.chainProperties)[3][1]
   @Prop(String) public mode!: string;
   @Prop(String) public publicKey!: string;
   @Prop(String) public type!: string;
@@ -127,10 +128,9 @@ export default class Keypair extends Vue {
   @Prop({ default: 64 }) public size!: number;
   // temporary prop
   @Prop(String) public password!: string;
-
-  get balance() {
-    return formatBalance(this.balanceAvailable, this.tokenSymbol, false);
-  }
+  private subs: any[] = [];
+  private chainProperties: any;
+  private tokenSymbol: any = Object.entries(this.$store.state.chainProperties)[3][1];
 
   public editName(): void {
     this.isEditingName = true;
@@ -203,19 +203,19 @@ export default class Keypair extends Vue {
     console.log(this.balanceAvailable);
   }
 
-  private async setChainProperties(): Promise<void> {
-    const { api } = Connector.getInstance();
-    this.chainProperties = await api.registry.getChainProperties();
-    this.$store.commit('setChainProperties', this.chainProperties)
-    this.tokenSymbol = Object.entries(this.$store.state.chainProperties)[3][1];
-  }
-
   public mounted(): void {
     this.loadExternalInfo();
   }
 
   public beforeDestroy() {
     this.subs.forEach((sub) => sub());
+  }
+
+  private async setChainProperties(): Promise<void> {
+    const { api } = Connector.getInstance();
+    this.chainProperties = await api.registry.getChainProperties();
+    this.$store.commit('setChainProperties', this.chainProperties);
+    this.tokenSymbol = Object.entries(this.$store.state.chainProperties)[3][1];
   }
 }
 </script>

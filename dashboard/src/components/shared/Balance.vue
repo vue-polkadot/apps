@@ -21,7 +21,7 @@ export default class Balance extends Vue {
 
   private currentBalance: string = '';
   private chainProperties: any;
-  private tokenSymbol: any = Object.entries(this.$store.state.chainProperties)[3][1]
+  private tokenSymbol: any = Object.entries(this.$store.state.chainProperties)[3][1];
 
   get balance() {
     return formatBalance(this.currentBalance, this.tokenSymbol, false);
@@ -41,12 +41,12 @@ export default class Balance extends Vue {
   private async setChainProperties(): Promise<void> {
     const { api } = Connector.getInstance();
     this.chainProperties = await api.registry.getChainProperties();
-    this.$store.commit('setChainProperties', this.chainProperties)
+    this.$store.commit('setChainProperties', this.chainProperties);
     this.tokenSymbol = Object.entries(this.$store.state.chainProperties)[3][1];
   }
 
   private async mounted(): Promise<void> {
-    this.setChainProperties()
+    this.setChainProperties();
   }
 }
 </script>

@@ -93,11 +93,11 @@ export default class Transfer extends Vue {
 
   public async shipIt(): Promise<void> {
     const { api } = Connector.getInstance();
-      try {
+    try {
         this.showNotification('Dispatched');
         const alicePair = keyring.getPair(this.accountFrom.address);
         alicePair.decodePkcs8(this.password);
-        const txHash = await api.tx.balances.transfer(this.accountTo.address, this.balance).signAndSend(alicePair)
+        const txHash = await api.tx.balances.transfer(this.accountTo.address, this.balance).signAndSend(alicePair);
         this.showNotification(txHash.toHex(), this.snackbarTypes.success);
         
         this.tx = txHash.toHex();

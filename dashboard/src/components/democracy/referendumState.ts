@@ -23,14 +23,14 @@ const defaultState: State = {
   voteCountNay: 0,
   votedAye: new BN(0),
   votedNay: new BN(0),
-  votedTotal: new BN(0)
+  votedTotal: new BN(0),
 };
 
-function isCurrentStatus (status: ReferendumStatus | ReferendumInfoTo239): status is ReferendumStatus {
+function isCurrentStatus(status: ReferendumStatus | ReferendumInfoTo239): status is ReferendumStatus {
   return !!(status as ReferendumStatus).tally;
 }
 
-function calcStateOld (votesFor: DerivedReferendumVote[]): State {
+function calcStateOld(votesFor: DerivedReferendumVote[]): State {
   return votesFor.reduce((state: State, derived): State => {
     const { balance, vote } = derived;
     const isDefault = vote.conviction.index === 0;
@@ -60,11 +60,11 @@ function calcStateOld (votesFor: DerivedReferendumVote[]): State {
     voteCountNay: 0,
     votedAye: new BN(0),
     votedNay: new BN(0),
-    votedTotal: new BN(0)
+    votedTotal: new BN(0),
   });
 }
 
-function calcState (tally: Tally, votes: DerivedReferendumVote[] = []): State {
+function calcState(tally: Tally, votes: DerivedReferendumVote[] = []): State {
   const allAye: DerivedReferendumVote[] = [];
   const allNay: DerivedReferendumVote[] = [];
 
@@ -84,7 +84,7 @@ function calcState (tally: Tally, votes: DerivedReferendumVote[] = []): State {
     voteCountNay: allNay.length,
     votedAye: tally.ayes,
     votedNay: tally.nays,
-    votedTotal: tally.turnout
+    votedTotal: tally.turnout,
   };
 }
 
@@ -99,7 +99,7 @@ const referendumState = async (referendum: any): Promise<State> => {
     }
   } 
   
-  return defaultState;
+ return defaultState;
 };
 
 export default referendumState;

@@ -6,7 +6,7 @@ export const apiEnabled = (to: any, from: any, next: any) => {
   if (Connector.getInstance().api) {
     next();
   } else {
-    next({ name: 'landing' })
+    next({ name: 'landing' });
     Notification.open({
       duration: 7000,
       message: `API is not connected yet. <br> Please try later.`,

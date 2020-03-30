@@ -34,7 +34,7 @@ export default class Landing extends Vue {
   
   @Watch('$store.state.keyringLoaded')
   public operationsAvailable(): void {
-    console.log('yup')
+    console.log('yup');
   }
 
   public isKeyringLoaded() {

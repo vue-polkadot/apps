@@ -51,7 +51,7 @@ import Balance from '@/params/components/Balance.vue';
 		VoteDropdown,
 		Conviction,
     ViewTransaction,
-    Balance
+    Balance,
 	},
 })
 export default class Vote extends Vue {
@@ -90,13 +90,13 @@ export default class Vote extends Vue {
 		
 		try {
 			showNotification('Dispatched');
-      const { referendumId, vote } = this;
-      const balance = 10000000;
-      const { aye, conviction } = vote;
-      console.log(aye, conviction, balance)
-      const params = this.currentVote()
+   const { referendumId, vote } = this;
+   const balance = 10000000;
+   const { aye, conviction } = vote;
+   console.log(aye, conviction, balance);
+   const params = this.currentVote()
                 ? [referendumId, { Standard: { balance, vote: { aye, conviction } } }]
-                : [referendumId, { aye, conviction }]
+                : [referendumId, { aye, conviction }];
 			this.tx = await exec(this.account, this.password, api.tx.democracy.vote, params);
 			showNotification(this.tx, notificationTypes.success);
 		} catch (e) {
@@ -104,10 +104,6 @@ export default class Vote extends Vue {
 		}
 
 	}
-
-	private isVoteEmpty() {
-		return this.vote.aye === null || this.vote.conviction === null;
-  }
   
   public handleValue(value: any) {
     console.log(value);
@@ -116,6 +112,10 @@ export default class Vote extends Vue {
       (this as any)[item] = value[item];
     });
 	}
+
+	private isVoteEmpty() {
+		return this.vote.aye === null || this.vote.conviction === null;
+  }
   
 }
 </script>

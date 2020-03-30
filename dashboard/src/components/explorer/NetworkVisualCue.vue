@@ -18,19 +18,19 @@ export default class NetworkVisualCue extends Vue {
   private currentBlock: any = {};
   private chainName: any = {};
   private hyphenCustom: any[] = [];
+  public async mounted() {
+    this.hyphenation();
+  }
 
   @Watch('$store.getters.getSettings')
   private hyphenation(): any {
     const destination: any = Object.entries(this.$store.getters.getSettings);
-    const hyphenCheck = destination[0][1].slice(6)
+    const hyphenCheck = destination[0][1].slice(6);
   
     if (hyphenCheck === '27.0.0.1:9944/' ) {
-      return this.hyphenCustom = ['l','o','c','a','1']
+      return this.hyphenCustom = ['l', 'o', 'c', 'a', '1'];
     }
     this.hyphenCustom = hyphenCheck.split('.');
-  }
-  public async mounted() {
-    this.hyphenation();
   }
 }
 </script>

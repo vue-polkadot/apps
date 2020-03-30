@@ -31,8 +31,8 @@ export default new Vuex.Store({
       state.keyringLoaded = true;
     },
     setChainProperties(state: any, data) {
-      state.chainProperties = Object.assign({}, data)
-    }
+      state.chainProperties = Object.assign({}, data);
+    },
   },
   modules: {
     setting: SettingModule,

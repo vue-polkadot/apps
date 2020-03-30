@@ -13,14 +13,23 @@ import Connector from '@vue-polkadot/vue-api';
 @Component({
   components: {
     DisabledInput,
-  }
+  },
 })
 export default class SummarySession extends Vue {
-  private sessionData: any = '';
-  private ses
-  private sessionInfo = 'api.derive.session?.info'
-  private subs: any[] = [];
   @Prop() public value!: any;
+  private sessionData: any = '';
+  private ses;
+  private sessionInfo = 'api.derive.session?.info';
+  private subs: any[] = [];
+  
+  public async mounted() {
+    this.fetchSessionInfo();
+  }
+
+  // Unsubscribe before destroying component
+  public beforeDestroy() {
+    this.subs.forEach((sub) => sub());
+  }
   
   // get session() {
     
@@ -42,16 +51,7 @@ export default class SummarySession extends Vue {
   
   private async fetchSessionInfo() {
     const { api } = Connector.getInstance();
-    this.subs.push(await api.derive.session.info((value: any) => this.sessionData = value))
-  }
-  
-  public async mounted() {
-    this.fetchSessionInfo();
-  }
-
-  // Unsubscribe before destroying component
-  public beforeDestroy() {
-    this.subs.forEach((sub) => sub());
+    this.subs.push(await api.derive.session.info((value: any) => this.sessionData = value));
   }
 }
 </script>

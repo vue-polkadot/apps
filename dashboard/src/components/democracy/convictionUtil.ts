@@ -1,4 +1,4 @@
-import Connector from "@vue-polkadot/vue-api";
+import Connector from '@vue-polkadot/vue-api';
 
 export interface ConvictionOption {
   text: string;
@@ -9,7 +9,7 @@ export const isCurrentVote = (): boolean => {
   const { api } = Connector.getInstance();
 
   if (!api) {
-    return false
+    return false;
   }
 
   return !!api.query.democracy.votingOf;
@@ -18,21 +18,21 @@ export const isCurrentVote = (): boolean => {
 const messageTransfer = (value: any, lock: any, period: any) =>
   `${value}x voting balance, locked for ${lock}x enactment (${period} days)`;
 
-const CONVICTIONS: [number, number][] = [
+const CONVICTIONS: Array<[number, number]> = [
   1,
   2,
   4,
   8,
   16,
-  32
+  32,
 ].map((lock, index) => [index + 1, lock]);
 
 const convictionMapper = (
   [value, lock]: [number, number],
-  enact: number
+  enact: number,
 ): ConvictionOption => ({
   text: messageTransfer(value, lock, (enact * lock).toFixed(2)),
-  value
+  value,
 });
 
 export default (): ConvictionOption[] => {
@@ -52,7 +52,7 @@ export default (): ConvictionOption[] => {
     24;
 
   return [
-    { text: "0.1x voting balance, no lockup period", value: 0 },
-    ...CONVICTIONS.map(pair => convictionMapper(pair, enact))
+    { text: '0.1x voting balance, no lockup period', value: 0 },
+    ...CONVICTIONS.map((pair) => convictionMapper(pair, enact)),
   ];
 };

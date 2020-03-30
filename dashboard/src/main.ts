@@ -10,7 +10,7 @@ import { faTrash, faKey, faSync, faRedo,
   faCopy, faAngleDoubleLeft, faAngleDoubleRight,
   faPlus, faTimes, faCaretDown, faCaretUp, faMinus,
   faFile, faBook, faCodeBranch, faSearch, faQuestionCircle,
-  faExternalLinkAlt
+  faExternalLinkAlt,
  } from '@fortawesome/free-solid-svg-icons';
 // import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';

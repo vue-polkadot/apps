@@ -39,6 +39,11 @@ import SummarySession from './SummarySession.vue';
   },
 })
 export default class Summary extends Vue {
+
+  get formattedTotalIssuance() {
+    const totalIssuance = this.totalIssuance.toString();
+    return formatBalance(totalIssuance, this.tokenSymbol, false);
+  }
   private totalIssuance: any = '';
   private currentBlock: any = {};
   private chainName: any = {};
@@ -49,16 +54,11 @@ export default class Summary extends Vue {
   private sessionProgress: any = {};
   private subs: any[] = [];
   private chainProperties: any;
-  private tokenSymbol: any = Object.entries(this.$store.state.chainProperties)[3][1]
-
-  get formattedTotalIssuance() {
-    const totalIssuance = this.totalIssuance.toString();
-    return formatBalance(totalIssuance, this.tokenSymbol, false);
-  }
+  private tokenSymbol: any = Object.entries(this.$store.state.chainProperties)[3][1];
 
   public async mounted() {
     const { api } = Connector.getInstance();
-    this.setChainProperties()
+    this.setChainProperties();
     this.subs.push(await api.derive.chain.bestNumber((value: any) => this.currentBlock = value));
     this.subs.push(await api.rpc.system.chain((value: any) => this.chainName = value));
     this.subs.push(await api.query.balances.totalIssuance((value: any) => this.totalIssuance = value));
@@ -69,17 +69,16 @@ export default class Summary extends Vue {
     // this.subs.push(await api.derive.session.sessionProgress((value: any) => this.sessionProgress = value));
   }
 
-  private async setChainProperties(): Promise<void> {
-    const { api } = Connector.getInstance();
-    this.chainProperties = await api.registry.getChainProperties();
-    this.$store.commit('setChainProperties', this.chainProperties)
-    this.tokenSymbol = Object.entries(this.$store.state.chainProperties)[3][1];
-  }
-
   // Unsubscribe before destroying component
   public beforeDestroy() {
     this.subs.forEach((sub) => sub());
   }
-}
 
+  private async setChainProperties(): Promise<void> {
+    const { api } = Connector.getInstance();
+    this.chainProperties = await api.registry.getChainProperties();
+    this.$store.commit('setChainProperties', this.chainProperties);
+    this.tokenSymbol = Object.entries(this.$store.state.chainProperties)[3][1];
+  }
+}
 </script>
