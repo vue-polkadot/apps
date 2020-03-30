@@ -18,7 +18,9 @@ export const isCurrentVote = (): boolean => {
 const messageTransfer = (value: any, lock: any, period: any) =>
   `${value}x voting balance, locked for ${lock}x enactment (${period} days)`;
 
-const CONVICTIONS: Array<[number, number]> = [
+type Pair<T> = [T, T];
+
+const CONVICTIONS: Pair<number>[] = [
   1,
   2,
   4,

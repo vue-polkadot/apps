@@ -18,7 +18,7 @@ import Connector from '@vue-polkadot/vue-api';
 export default class SummarySession extends Vue {
   @Prop() public value!: any;
   private sessionData: any = '';
-  private ses;
+  private ses: any;
   private sessionInfo = 'api.derive.session?.info';
   private subs: any[] = [];
   

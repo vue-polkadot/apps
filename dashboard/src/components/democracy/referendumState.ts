@@ -1,12 +1,16 @@
 import BN from 'bn.js';
 import Connector from '@vue-polkadot/vue-api';
 
-import { DerivedReferendumVote } from '@polkadot/api-derive/types';
-import { ReferendumInfoTo239, ReferendumStatus, Tally } from '@polkadot/types/interfaces';
+import {
+  DeriveReferendumVote,
+  DeriveReferendum,
+} from '@polkadot/api-derive/types';
+import {
+  ReferendumInfoTo239,
+  ReferendumStatus,
+} from '@polkadot/types/interfaces';
 
 interface State {
-  allAye: DerivedReferendumVote[];
-  allNay: DerivedReferendumVote[];
   voteCount: number;
   voteCountAye: number;
   voteCountNay: number;
@@ -16,8 +20,6 @@ interface State {
 }
 
 const defaultState: State = {
-  allAye: [],
-  allNay: [],
   voteCount: 0,
   voteCountAye: 0,
   voteCountNay: 0,
@@ -26,80 +28,63 @@ const defaultState: State = {
   votedTotal: new BN(0),
 };
 
-function isCurrentStatus(status: ReferendumStatus | ReferendumInfoTo239): status is ReferendumStatus {
+function isCurrentStatus(
+  status: ReferendumStatus | ReferendumInfoTo239,
+): status is ReferendumStatus {
   return !!(status as ReferendumStatus).tally;
 }
 
-function calcStateOld(votesFor: DerivedReferendumVote[]): State {
-  return votesFor.reduce((state: State, derived): State => {
-    const { balance, vote } = derived;
-    const isDefault = vote.conviction.index === 0;
-    const counted = balance
-      .muln(isDefault ? 1 : vote.conviction.index)
-      .divn(isDefault ? 10 : 1);
+function calcOldState(votesFor: DeriveReferendumVote[]): State {
+  return votesFor.reduce(
+    (state, { balance, vote }): State => {
+      const isDefault = vote.conviction.index === 0;
+      const counted = balance
+        .muln(isDefault ? 1 : vote.conviction.index)
+        .divn(isDefault ? 10 : 1);
 
-    if (vote.isAye) {
-      state.allAye.push(derived);
-      state.voteCountAye++;
-      state.votedAye = state.votedAye.add(counted);
-    } else {
-      state.allNay.push(derived);
-      state.voteCountNay++;
-      state.votedNay = state.votedNay.add(counted);
-    }
+      if (vote.isAye) {
+        state.voteCountAye++;
+        state.votedAye = state.votedAye.add(counted);
+      } else {
+        state.voteCountNay++;
+        state.votedNay = state.votedNay.add(counted);
+      }
 
-    state.voteCount++;
-    state.votedTotal = state.votedTotal.add(counted);
+      state.voteCount++;
+      state.votedTotal = state.votedTotal.add(counted);
 
-    return state;
-  }, {
-    allAye: [],
-    allNay: [],
-    voteCount: 0,
-    voteCountAye: 0,
-    voteCountNay: 0,
-    votedAye: new BN(0),
-    votedNay: new BN(0),
-    votedTotal: new BN(0),
-  });
+      return state;
+    },
+    { ...defaultState },
+  );
 }
 
-function calcState(tally: Tally, votes: DerivedReferendumVote[] = []): State {
-  const allAye: DerivedReferendumVote[] = [];
-  const allNay: DerivedReferendumVote[] = [];
+const setState = (state: State, newState: State): State => {
+  return { ...state, ...newState };
+};
 
-  votes.forEach((derived): void => {
-    if (derived.vote.isAye) {
-      allAye.push(derived);
-    } else {
-      allNay.push(derived);
-    }
-  });
-
-  return {
-    allAye,
-    allNay,
-    voteCount: allAye.length + allNay.length,
-    voteCountAye: allAye.length,
-    voteCountNay: allNay.length,
-    votedAye: tally.ayes,
-    votedNay: tally.nays,
-    votedTotal: tally.turnout,
-  };
-}
-
-
-const referendumState = async (referendum: any): Promise<State> => {
-	if (Connector.getInstance()) {
-		const votes = await Connector.getInstance().api.derive.democracy.referendumVotes(referendum.index);
-		if (isCurrentStatus(referendum.status)) {
-      return calcState(referendum.status.tally, votes);
+const referendumState = async (
+  referendum: DeriveReferendum,
+): Promise<State> => {
+  const { api } = Connector.getInstance();
+  let state = { ...defaultState };
+  if (api && api.query.democracy.votersFor) {
+    const votes = await api.derive.democracy.referendumVotesFor(
+      referendum.index,
+    );
+    if (isCurrentStatus(referendum.status)) {
+      state = setState(state, {
+        ...defaultState,
+        votedAye: referendum.status.tally.ayes,
+        votedNay: referendum.status.tally.nays,
+        votedTotal: referendum.status.tally.turnout,
+      });
     } else if (votes) {
-      return calcStateOld(votes);
+      state = setState(state, calcOldState(votes));
     }
-  } 
-  
- return defaultState;
+  }
+
+  return state;
 };
 
 export default referendumState;
