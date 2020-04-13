@@ -15,20 +15,22 @@ interface MediatorServiceInterface {
  */
 class MediatorService extends Vue implements MediatorServiceInterface {
 
-  public mounted() {
-    ApiService.$on('change', this.onApiChanged)
-  }
-
   public handleUrlChange(apiUrl: string) {
-    // TODO: call this from settings there is a blackbox for it rn
+    ApiService.changeUrl(apiUrl).then(this.onApiChanged, this.onApiError)
   }
 
-  public onApiChanged(api: any) {
+  public async onApiChanged(api: any) {
     NS.info('api changed')
+    const chainProperties = await api.registry.getChainProperties();
+    console.log('chainProperties', chainProperties);
+    (Vue as any).store.commit('setChainProperties', chainProperties)
+
   }
 
-
-
+  public onApiError(err: any) {
+    console.warn(err)
+    NS.error('Api err')
+  }
 
 }
 

@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import VuexPersist from 'vuex-persist';
 import SettingModule from '@vue-polkadot/vue-settings';
 import Connector from '@vue-polkadot/vue-api';
+import mediator from './utils/mediator'
 
 const vuexLocalStorage = new VuexPersist({
   key: 'vuex',
@@ -14,7 +15,9 @@ const myPlugin = (store: any) => {
   // called when the store is initialized
   store.subscribe(({ type, payload }: any, state: any) => {
     if (type === 'setSettings' && payload.apiUrl) {
-      Connector.getInstance().changeApiUrl(payload.apiUrl);
+      // TODO: Use mediator here
+      mediator.handleUrlChange(payload.apiUrl)
+      // Connector.getInstance().changeApiUrl(payload.apiUrl);
     }
   });
 };

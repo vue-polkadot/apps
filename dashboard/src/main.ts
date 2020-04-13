@@ -22,6 +22,7 @@ import store from './store';
 import router from './router';
 import Connector from '@vue-polkadot/vue-api';
 import Api from '@/utils/vueApi'
+import mediator from '@/utils/mediator'
 
 library.add(faTrash, faKey, faSync, faRedo,
   faCloudDownloadAlt, faPlay, faFolderOpen,
@@ -35,10 +36,12 @@ library.add(faTrash, faKey, faSync, faRedo,
 
 Vue.component('vue-fontawesome', FontAwesomeIcon);
 
-(window as any).C = Connector; 
-Connector.createInstance(store.state.setting.apiUrl);
-Vue.prototype.$http = Connector.getInstance(); 
+// (window as any).C = Connector; 
+// Connector.createInstance(store.state.setting.apiUrl);
+// Vue.prototype.$http = Connector.getInstance(); 
 (window as any).A = Api
+
+Vue.prototype.$m =  mediator
 
 Vue.use(Buefy, {
   defaultIconPack: 'fas',

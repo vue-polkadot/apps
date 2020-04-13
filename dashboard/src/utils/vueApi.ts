@@ -19,15 +19,24 @@ class ApiService extends Vue implements ApiServiceInterface {
   }
 
   public async init(apiUrl: string = 'wss://substrate-rpc.parity.io/') {
-    const provider = new WsProvider(apiUrl);
-    const types = {};
-    this._api = await ApiPromise.create({provider, types});
-    this.$emit('change', await this._api.isReady())
+    console.log('ApiService INIT', apiUrl)
+    try {
+      const provider = new WsProvider(apiUrl);
+      const types = {};
+      this._api = await ApiPromise.create({provider, types});
+      return await this._api;
+    } catch(err) {
+      throw err
+    }
+   
   }
 
   public async changeUrl(apiUrl: string) {
-    // TODO: implement
-    // Disconnect && Init to new one
+    if (this._api) {
+      this._api.disconnect()
+    }
+
+    return this.init(apiUrl)
   }
 
   
