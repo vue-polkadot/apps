@@ -76,6 +76,7 @@
             <a :href="getExplorerUrl(address)" target="_blank">
               <b-button type="is-dark" icon-left="external-link-alt" outlined>View</b-button>
             </a>
+            <SetIdentity />
           </b-field>
         </div>
         <div v-if="mode === 'addressbook'">
@@ -102,10 +103,12 @@ import keyring from '@vue-polkadot/vue-keyring';
 import Connector from '@vue-polkadot/vue-api';
 import formatBalance from '../../utils/formatBalance';
 import { urlBuilderAccount } from '@/utils/explorerGuide';
+import SetIdentity from '@/components/shared/modals/SetIdentity.vue'
 
 @Component({
   components: {
     Identicon,
+    SetIdentity
   },
 })
 export default class Keypair extends Vue {
