@@ -20,6 +20,9 @@
     <b-field label="twitter">
       <b-input v-model="identity.twitter"> </b-input>
     </b-field>
+    <b-field label="telegram">
+      <b-input v-model="identity.telegram"> </b-input>
+    </b-field>
     <b-field label="riot">
       <b-input v-model="identity.riot"> </b-input>
     </b-field>
@@ -70,6 +73,7 @@ export default class SetIdentity extends Vue {
     email: '',
     web: '',
     twitter: '',
+    telegram: '',
     riot: '',
     tel: '',
   }
