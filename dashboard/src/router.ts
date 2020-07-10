@@ -2,139 +2,157 @@ import Vue from 'vue';
 import Router from 'vue-router';
 Vue.use(Router);
 import { apiEnabled } from './routeGuard';
+import Landing from './components/landing/Landing.vue';
+import Accounts from './views/Accounts.vue';
+import AccountsCreate from './views/AccountsCreate.vue';
+import AccountsBackup from './views/AccountsBackup.vue';
+import AccountsChangePassword from './views/AccountsChangePassword.vue';
+import AccountsRestore from './views/AccountsRestore.vue';
+import Addressbook from './components/addressbook/Addressbook.vue';
+import AddressbookCreate from './views/AddressbookCreate.vue';
+import Transfer from './components/transfer/Transfer.vue';
+import DemocracyWrapper from './components/democracy/DemocracyWrapper.vue';
+import Settings from './views/Settings.vue';
+import Toolbox from './components/toolbox/Toolbox.vue';
+import Staking from './views/Staking.vue';
+import ChainState from './views/ChainState.vue';
+import Explorer from './components/explorer/Explorer.vue';
+import Extrinsics from './views/Extrinsics.vue';
+import TreasuryWrapper from './components/treasury/TreasuryWrapper.vue';
+import FourZeroFour from './components/FourZeroFour.vue'
 
 export default new Router({
   routes: [
     {
       path: '/',
       name: 'landing',
-      component: () => import('./components/landing/Landing.vue'),
+      component: Landing,
     },
     {
       path: '/accounts',
       name: 'accounts',
-      component: () => import('./views/Accounts.vue'),
+      component: Accounts,
       // beforeEnter: apiEnabled,
     },
     {
       path: '/accounts/create',
       name: 'accountsCreate',
-      component: () => import('./views/AccountsCreate.vue'),
+      component: AccountsCreate,
       // beforeEnter: apiEnabled,
     },
     {
       path: '/accounts/backup/:address',
       name: 'accountsBackup',
-      component: () => import('./views/AccountsBackup.vue'),
+      component: AccountsBackup,
       // beforeEnter: apiEnabled,
     },
     {
       path: '/accounts/changepassword/:address',
       name: 'accountsChangePassword',
-      component: () => import('./views/AccountsChangePassword.vue'),
+      component: AccountsChangePassword,
       beforeEnter: apiEnabled,
     },
     {
       path: '/accounts/restore',
       name: 'accountsRestore',
-      component: () => import('./views/AccountsRestore.vue'),
+      component: AccountsRestore,
       // beforeEnter: apiEnabled,
     },
     {
       path: '/addressbook',
       name: 'addressbook',
-      component: () => import('./components/addressbook/Addressbook.vue'),
+      component: Addressbook,
       // beforeEnter: apiEnabled,
     },
     {
       path: '/addressbook/create',
       name: 'addressbookCreate',
-      component: () => import('./views/AddressbookCreate.vue'),
+      component: AddressbookCreate,
       beforeEnter: apiEnabled,
     },
     {
       path: '/transfer',
       name: 'transfer',
-      component: () => import('./components/transfer/Transfer.vue'),
+      component: Transfer,
       // beforeEnter: apiEnabled,
-		},
-		{
-			path: '/transfer/f/:from/t/:to/a/:amount/:asset',
-			name: 'transferSignSubmit',
-      component: () => import('./components/transfer/Transfer.vue'),
+    },
+    {
+      path: '/transfer/f/:from/t/:to/a/:amount/:asset',
+      name: 'transferSignSubmit',
+      component: Transfer,
       beforeEnter: apiEnabled,
-		},
+    },
     {
       path: '/transfer/from/:from',
       name: 'transferFrom',
-      component: () => import('./components/transfer/Transfer.vue'),
+      component: Transfer,
       beforeEnter: apiEnabled,
     },
     {
       path: '/transfer/to/:to',
       name: 'transferTo',
-      component: () => import('./components/transfer/Transfer.vue'),
+      component: Transfer,
       beforeEnter: apiEnabled,
     },
     {
       path: '/democracy',
       name: 'democracy',
-      component: () => import('./components/democracy/DemocracyWrapper.vue'),
+      component: DemocracyWrapper,
       beforeEnter: apiEnabled,
     },
     {
-			path: '/settings',
+      path: '/settings',
       name: 'settings',
-      component: () => import('./views/Settings.vue'),
+      component: Settings,
     },
     {
       path: '/toolbox',
       name: 'toolbox',
-      component: () => import('./components/toolbox/Toolbox.vue')
+      component: Toolbox
     },
     {
       path: '/staking',
       name: 'staking',
-      component: () => import('./views/Staking.vue')
+      component: Staking
     },
     {
       path: '/chainstate',
       name: 'chainstate',
-      component: () => import('./views/ChainState.vue')
+      component: ChainState
     },
     {
-			path: '/explorer',
+      path: '/explorer',
       name: 'explorer',
-      component: () => import('./components/explorer/Explorer.vue'),
+      component: Explorer,
       beforeEnter: apiEnabled,
     },
     {
-			path: '/explorer/:tab',
+      path: '/explorer/:tab',
       name: 'explorerByTab',
-      component: () => import('./components/explorer/Explorer.vue'),
+      component: Explorer,
       // beforeEnter: apiEnabled,
     },
     {
       path: '/explorer/:tab/:hash',
       name: 'explorerByTabHash',
-      component: () => import('./components/explorer/Explorer.vue'),
+      component: Explorer,
       // beforeEnter: apiEnabled,
     },
     {
-			path: '/extrinsics',
+      path: '/extrinsics',
       name: 'extrinsics',
-      component: () => import('./views/Extrinsics.vue'),
+      component: Extrinsics,
       beforeEnter: apiEnabled,
     },
     {
-			path: '/treasury',
+      path: '/treasury',
       name: 'treasury',
-      component: () => import('./components/treasury/TreasuryWrapper.vue')
+      component: TreasuryWrapper
     },
-		{
-			path: '*',
-			name: 'FourZeroFour',
-			component: () => import('./components/FourZeroFour.vue'),
-		},
+    {
+      path: '*',
+      name: 'FourZeroFour',
+      component: FourZeroFour,
+    },
   ],
 });
