@@ -13,43 +13,43 @@ export default new Router({
     {
       path: '/accounts',
       name: 'accounts',
-      component: () => import('./views/Accounts.vue'),
+      component: () => import('./views/Account/Accounts.vue'),
       // beforeEnter: apiEnabled,
     },
     {
       path: '/accounts/create',
       name: 'accountsCreate',
-      component: () => import('./views/AccountsCreate.vue'),
+      component: () => import('./views/Account/AccountsCreate.vue'),
       // beforeEnter: apiEnabled,
     },
     {
       path: '/accounts/backup/:address',
       name: 'accountsBackup',
-      component: () => import('./views/AccountsBackup.vue'),
+      component: () => import('./views/Account/AccountsBackup.vue'),
       // beforeEnter: apiEnabled,
     },
     {
       path: '/accounts/changepassword/:address',
       name: 'accountsChangePassword',
-      component: () => import('./views/AccountsChangePassword.vue'),
+      component: () => import('./views/Account/AccountsChangePassword.vue'),
       beforeEnter: apiEnabled,
     },
     {
       path: '/accounts/restore',
       name: 'accountsRestore',
-      component: () => import('./views/AccountsRestore.vue'),
+      component: () => import('./views/Account/AccountsRestore.vue'),
       // beforeEnter: apiEnabled,
     },
     {
       path: '/addressbook',
       name: 'addressbook',
-      component: () => import('./components/addressbook/Addressbook.vue'),
+      component: () => import('./components/shared/accounts/addressbook/Addressbook.vue'),
       // beforeEnter: apiEnabled,
     },
     {
       path: '/addressbook/create',
       name: 'addressbookCreate',
-      component: () => import('./views/AddressbookCreate.vue'),
+      component: () => import('./views/Account/AddressbookCreate.vue'),
       beforeEnter: apiEnabled,
     },
     {
@@ -57,13 +57,13 @@ export default new Router({
       name: 'transfer',
       component: () => import('./components/transfer/Transfer.vue'),
       // beforeEnter: apiEnabled,
-		},
-		{
-			path: '/transfer/f/:from/t/:to/a/:amount/:asset',
-			name: 'transferSignSubmit',
+    },
+    {
+      path: '/transfer/f/:from/t/:to/a/:amount/:asset',
+      name: 'transferSignSubmit',
       component: () => import('./components/transfer/Transfer.vue'),
       beforeEnter: apiEnabled,
-		},
+    },
     {
       path: '/transfer/from/:from',
       name: 'transferFrom',
@@ -83,7 +83,7 @@ export default new Router({
       beforeEnter: apiEnabled,
     },
     {
-			path: '/settings',
+      path: '/settings',
       name: 'settings',
       component: () => import('./views/Settings.vue'),
     },
@@ -103,38 +103,38 @@ export default new Router({
       component: () => import('./views/ChainState.vue')
     },
     {
-			path: '/explorer',
+      path: '/explorer',
       name: 'explorer',
       component: () => import('./components/explorer/Explorer.vue'),
       beforeEnter: apiEnabled,
     },
     {
-			path: '/explorer/:tab',
+      path: '/explorer/:tab',
       name: 'explorerByTab',
       component: () => import('./components/explorer/Explorer.vue'),
-      // beforeEnter: apiEnabled,
+      beforeEnter: apiEnabled,
     },
     {
       path: '/explorer/:tab/:hash',
       name: 'explorerByTabHash',
       component: () => import('./components/explorer/Explorer.vue'),
-      // beforeEnter: apiEnabled,
+      beforeEnter: apiEnabled,
     },
     {
-			path: '/extrinsics',
+      path: '/extrinsics',
       name: 'extrinsics',
       component: () => import('./views/Extrinsics.vue'),
       beforeEnter: apiEnabled,
     },
     {
-			path: '/treasury',
+      path: '/treasury',
       name: 'treasury',
       component: () => import('./components/treasury/TreasuryWrapper.vue')
     },
-		{
-			path: '*',
-			name: 'FourZeroFour',
-			component: () => import('./components/FourZeroFour.vue'),
-		},
+    {
+      path: '*',
+      name: 'FourZeroFour',
+      component: () => import('./components/FourZeroFour.vue'),
+    },
   ],
 });
