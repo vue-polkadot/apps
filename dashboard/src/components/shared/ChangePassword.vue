@@ -1,43 +1,40 @@
 <template>
   <div class="changepass">
-    <Identicon
-      :value="address.toString()"
-      :size="size"
-      />
-    {{shortAddress(address)}} 
+    <Identicon :value="address.toString()" :size="size" />
+    {{shortAddress(address)}}
     <b-field label="your current password" v-bind:type="{ 'is-danger': !isPassValid }">
-      <b-input v-model="change.oldPass" type="password"
+      <b-input
+        v-model="change.oldPass"
+        type="password"
         @input="validatePassword(change.oldPass)"
-        password-reveal></b-input>
+        password-reveal
+      ></b-input>
     </b-field>
     <b-field label="your new password" v-bind:type="{ 'is-danger': !isPassValid }">
-      <b-input v-model="change.newPass" type="password"
+      <b-input
+        v-model="change.newPass"
+        type="password"
         @input="validatePassword(change.newPass)"
-        password-reveal></b-input>
+        password-reveal
+      ></b-input>
     </b-field>
-    <router-link to="/accounts">
-      <b-button @click="doChangePassword()"
-        type="is-dark" icon-left="key" outlined>
-        Change Passowrd
-      </b-button>
+    <router-link :to="{ name: 'accounts' }">
+      <b-button @click="doChangePassword()" type="is-dark" icon-left="key" outlined>Change Passowrd</b-button>
     </router-link>
-    <router-link to="/accounts">
-      <b-button icon-left="times" type="is-warning" outlined>
-        Cancel
-      </b-button>
+    <router-link :to="{ name: 'accounts' }">
+      <b-button icon-left="times" type="is-warning" outlined>Cancel</b-button>
     </router-link>
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Prop, Emit } from 'vue-property-decorator';
-import Identicon from '@vue-polkadot/vue-identicon';
-import keyring from '@polkadot/ui-keyring';
+import { Vue, Component, Prop, Emit } from "vue-property-decorator";
+import Identicon from "@vue-polkadot/vue-identicon";
+import keyring from "@polkadot/ui-keyring";
 
 @Component({
-  components:
-    {
-      Identicon,
-    },
+  components: {
+    Identicon
+  }
 })
 export default class ChangePass extends Vue {
   @Prop(String) public address!: string;
@@ -47,16 +44,17 @@ export default class ChangePass extends Vue {
   public isPassValid: boolean = false;
   public change: any = {
     oldPass: null,
-    newPass: null };
+    newPass: null
+  };
   public validatePassword(password: string): boolean {
-    return this.isPassValid = keyring.isPassValid(password);
+    return (this.isPassValid = keyring.isPassValid(password));
   }
 
   public shortAddress(address: string): string {
     if (address) {
       return `${address.slice(0, 6)}...${address.slice(-6)}`;
     }
-    return '';
+    return "";
   }
 
   @Emit()
