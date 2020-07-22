@@ -40,13 +40,13 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import Identicon from '@vue-polkadot/vue-identicon';
-import keyring from '@polkadot/ui-keyring
+import keyring from '@polkadot/ui-keyring'
 import Selection from '@/components/extrinsics/Selection.vue';
 import Balance from '@/params/components/Balance.vue';
 import Account from '@/params/components/Account.vue';
 import { KeyringPair } from '@polkadot/keyring/types';
 import Dropdown from '@/components/shared/Dropdown.vue';
-import { urlBuilderTransaction } from '@/utils/explorerGuide';
+import { urlBuilderTransaction } from '../../utils/explorerGuide';
 
 @Component({
   components: {

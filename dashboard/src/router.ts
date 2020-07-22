@@ -14,30 +14,32 @@ export default new Router({
       path: '/accounts',
       name: 'accounts',
       component: () => import('./views/Account/Accounts.vue'),
-      // beforeEnter: apiEnabled,
-    },
-    {
-      path: '/accounts/create',
-      name: 'accountsCreate',
-      component: () => import('./views/Account/AccountsCreate.vue'),
-      // beforeEnter: apiEnabled,
-    },
-    {
-      path: '/accounts/backup/:address',
-      name: 'accountsBackup',
-      component: () => import('./views/Account/AccountsBackup.vue'),
-      // beforeEnter: apiEnabled,
-    },
-    {
-      path: '/accounts/changepassword/:address',
-      name: 'accountsChangePassword',
-      component: () => import('./views/Account/AccountsChangePassword.vue'),
-      beforeEnter: apiEnabled,
-    },
-    {
-      path: '/accounts/restore',
-      name: 'accountsRestore',
-      component: () => import('./views/Account/AccountsRestore.vue'),
+      children: [
+        {
+          // AccountsCreate will be rendered inside accounts's <router-view>
+          path: 'create',
+          name: 'accountsCreate',
+          component: () => import('./views/Account/AccountsCreate.vue'),
+        },
+        {
+          path: 'backup/:address',
+          name: 'accountsBackup',
+          component: () => import('./views/Account/AccountsBackup.vue'),
+          // beforeEnter: apiEnabled,
+        },
+        {
+          path: 'changepassword/:address',
+          name: 'accountsChangePassword',
+          component: () => import('./views/Account/AccountsChangePassword.vue'),
+          beforeEnter: apiEnabled,
+        },
+        {
+          path: 'restore',
+          name: 'accountsRestore',
+          component: () => import('./views/Account/AccountsRestore.vue'),
+          // beforeEnter: apiEnabled,
+        },
+      ]
       // beforeEnter: apiEnabled,
     },
     {

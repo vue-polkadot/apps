@@ -29,6 +29,7 @@ export default class Dashboard extends Vue {
   private ss58Format: any = 42;
   private sidebarClosed: boolean = true;
   private online: boolean = false;
+  private accountCreate: boolean = false;
 
   private toggleSidebar(val: boolean) {
     this.sidebarClosed = val;
