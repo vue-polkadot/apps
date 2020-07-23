@@ -1,14 +1,14 @@
 <template>
   <div class='Accounts'>
-    <b-field grouped multiline v-show="!accountCreate">
+    <b-field grouped multiline>
       <router-link :to="{ name: 'accountsCreate' }">
-        <b-button type='is-dark' icon-left='plus' @click="toggleButton" outlined>Add Account</b-button>
+        <b-button type='is-dark' icon-left='plus' outlined>Add Account</b-button>
       </router-link>
       <router-link :to="{ name : 'accountsRestore' }">
         <b-button type='is-dark' icon-left='sync' outlined>Restore JSON</b-button>
       </router-link>
     </b-field>
-    <b-field label='filter by name or tags' v-show="!accountCreate">
+    <b-field label='filter by name or tags'>
       <b-input
         v-model='searchFilter'
         icon='search'
@@ -16,7 +16,7 @@
         @input='filterByName(searchFilter)'
       ></b-input>
     </b-field>
-    <ul v-show="!accountCreate">
+    <ul>
       <li v-for='acc in keyringAccounts' v-bind:key='acc.address'>
         <Keypair
           v-if='
@@ -51,17 +51,15 @@ import Connector from '@vue-polkadot/vue-api';
     Keypair
   }
 })
+
 export default class Accounts extends Vue {
+  
   private chainProperties: any;
 
   public searchFilter: string = ''.toLowerCase();
   public theme: string = 'substrate';
   public hideTestingAccounts: boolean = true;
-  private accountCreate: boolean = false;
-
-  private toggleButton(val: boolean) {
-    this.accountCreate = !this.accountCreate;
-  }
+  
   public modal: object = {
     create: false,
     import: false,

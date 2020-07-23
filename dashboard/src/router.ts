@@ -31,7 +31,7 @@ export default new Router({
           path: 'changepassword/:address',
           name: 'accountsChangePassword',
           component: () => import('./views/Account/AccountsChangePassword.vue'),
-          beforeEnter: apiEnabled,
+          // beforeEnter: apiEnabled,
         },
         {
           path: 'restore',
@@ -47,12 +47,14 @@ export default new Router({
       name: 'addressbook',
       component: () => import('./components/shared/accounts/addressbook/Addressbook.vue'),
       // beforeEnter: apiEnabled,
-    },
-    {
-      path: '/addressbook/create',
-      name: 'addressbookCreate',
-      component: () => import('./views/Account/AddressbookCreate.vue'),
-      beforeEnter: apiEnabled,
+      children: [
+        {
+          path: 'create',
+          name: 'addressbookCreate',
+          component: () => import('./views/Account/AddressbookCreate.vue'),
+          // beforeEnter: apiEnabled,
+        },
+      ]
     },
     {
       path: '/transfer',
