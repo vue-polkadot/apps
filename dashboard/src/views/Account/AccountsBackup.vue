@@ -10,7 +10,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Backup from '../../components/shared/Backup.vue';
+import Backup from '../../components/shared/accounts/Backup.vue';
 
 @Component({
   components: {

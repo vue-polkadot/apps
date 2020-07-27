@@ -37,7 +37,7 @@
 import { Component, Prop, Vue, PropSync, Watch } from 'vue-property-decorator';
 import Identicon from '@vue-polkadot/vue-identicon';
 import keyring from '@polkadot/ui-keyring';
-import Keypair from '../../../shared/Keypair.vue';
+import Keypair from '../Keypair.vue';
 import { mapState } from 'vuex';
 
 @Component({

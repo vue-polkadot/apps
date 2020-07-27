@@ -7,7 +7,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Restore from '../../components/shared/Restore.vue';
+import Restore from '../../components/shared/accounts/Restore.vue';
 
 @Component({
   components: {

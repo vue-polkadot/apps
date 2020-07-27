@@ -42,7 +42,7 @@
 <script lang='ts'>
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import keyring from '@polkadot/ui-keyring';
-import Keypair from '../../shared/Keypair.vue';
+import Keypair from './Keypair.vue';
 import { u8aToHex } from '@polkadot/util';
 import Connector from '@vue-polkadot/vue-api';
 

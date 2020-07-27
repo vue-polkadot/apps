@@ -8,7 +8,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Create from '../../components/shared/Create.vue';
+import Create from '../../components/shared/accounts/Create.vue';
 
 @Component({
   components: {

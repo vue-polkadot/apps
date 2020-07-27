@@ -8,7 +8,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Changepass from '../../components/shared/ChangePassword.vue';
+import Changepass from '../../components/shared/accounts/ChangePassword.vue';
 
 @Component({
   components: {
