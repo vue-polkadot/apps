@@ -1,6 +1,11 @@
 <template>
   <div>
-
+    <div v-for="token in tokens" :key="token.index">
+      <div><b>Index:</b>{{ token.index }}</div>
+      <div><b>Collection:</b>{{ token.collection }}</div>
+      <div><b>Owner:</b>{{ token.owner }}</div>
+      <div><b>Data:</b>{{ token.data }}</div>
+    </div>
 
   </div>
 </template>
@@ -12,6 +17,7 @@ import { hexToString } from '@polkadot/util';
 import { emptyObject } from '@/utils/empty';
 
 interface NFToken {
+  index: number;
   collection: number;
   owner: string;
   data: string | string[];
@@ -35,7 +41,7 @@ export default class NFT extends Vue {
     }
 
     const collectionSize = await nftPallet.itemListIndex(COLLECTION);
-    this.magic(nftPallet, 1);
+    this.magic(nftPallet, 4);
 
   }
 
@@ -46,14 +52,16 @@ export default class NFT extends Vue {
   }
 
   private fetchCollectionItem(nftPallet: any, index: number) {
-    nftPallet.nftItemList(COLLECTION, index).then(this.process)     
+    nftPallet.nftItemList(COLLECTION, index).then((value: any) => this.process(value, index))     
   }
 
-  private process(result: any) {
+  private process(result: any, index: number) {
     const token: NFToken = emptyObject<NFToken>();
-    token.data = hexToString(result?.Data);
+    token.data = result?.Data?.toString();
     token.collection = result?.Collection?.toString();
     token.owner = result?.Owner?.toString();
+    token.index = index;
+    this.tokens.push(token)
     console.log('NEW TOKEN', token);
     
   }
