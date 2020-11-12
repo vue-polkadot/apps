@@ -142,7 +142,13 @@ export default class SidebarMenu extends Vue {
       icon: 'exchange-alt',
       to: { name: 'rpc' },
       tag: 'router-link'
-    }
+    },
+    {
+      name: 'NFT',
+      icon: 'donate',
+      to: { name: 'nft' },
+      tag: 'router-link'
+    },
   ];
   public externalLinks: any = [
     {

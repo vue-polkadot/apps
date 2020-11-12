@@ -26,7 +26,7 @@ import Connector from '@vue-polkadot/vue-api';
 import extractParams, {StorageEntryPromise} from './extractParams'
 import { getTypeDef } from '@polkadot/types';
 import { TypeDef } from '@polkadot/types/types';
-import { ConstantCodec } from '@polkadot/metadata/Decorated/types';
+import { ConstantCodec } from '@polkadot/metadata/decorate/types';
 
 
 const components = {

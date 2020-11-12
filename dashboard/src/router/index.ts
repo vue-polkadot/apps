@@ -18,6 +18,7 @@ const Extrinsics = () => import('@/views/Extrinsics.vue');
 const Treasury = () => import('@/components/treasury/TreasuryWrapper.vue')
 const FourZeroFour = () => import('@/components/FourZeroFour.vue')
 const RPC = () => import('@/components/rpc/RPC.vue');
+const NFT = () => import('@/components/nft/NFT.vue');
 
 export default new Router({
   routes: [
@@ -64,6 +65,11 @@ export default new Router({
 			path: '/treasury',
       name: 'treasury',
       component: Treasury
+    },
+    {
+			path: '/nft',
+      name: 'nft',
+      component: NFT
     },
 		{
 			path: '*',
