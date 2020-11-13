@@ -1,5 +1,12 @@
 <template>
   <div>
+    <b-field label="Owners">
+      <b-select placeholder="Select an owner">
+        <option v-for="option in allOwners" :value="option" :key="option">
+          {{ option }}
+        </option>
+      </b-select>
+    </b-field>
     <div class="card nft-card" v-for="token in tokens" :key="token.index">
       <div class="card-image" v-if="token.image">
         <b-image
@@ -16,9 +23,14 @@
         <div><b>Data:</b>{{ token.data }}</div>
         <b-tag type="is-primary" size="is-medium">{{ token.sex }}</b-tag>
         <b-taglist v-if="token.attributes">
-        <b-tag type="is-dark" size="is-medium" v-for="attr in token.attributes" :key="attr">
-          {{ attr }}
-        </b-tag>
+          <b-tag
+            type="is-dark"
+            size="is-medium"
+            v-for="attr in token.attributes"
+            :key="attr"
+          >
+            {{ attr }}
+          </b-tag>
         </b-taglist>
       </div>
     </div>
@@ -40,9 +52,14 @@ import { PunkNFT, Collection } from './types';
 const COLLECTION = 4;
 const regex = /{id}/;
 
+interface OwnerMap {
+  [owner: string]: number;
+}
+
 @Component({})
 export default class NFT extends Vue {
   private tokens: PunkNFT[] = [];
+  private ownerMap: OwnerMap = emptyObject<OwnerMap>();
   private collection: Collection = emptyObject<Collection>();
 
   public async mounted() {
@@ -84,8 +101,18 @@ export default class NFT extends Vue {
     if (this.collection.offchainSchema) {
       token.image = this.collection.offchainSchema?.replace(regex, `${index}`);
     }
+    if (this.ownerMap[token.owner]) {
+      this.$set(this.ownerMap, token.owner,  this.ownerMap[token.owner] + 1)
+    } else {
+      this.$set(this.ownerMap, token.owner, 1)
+    }
+
     this.tokens.push(token);
     console.log('NEW TOKEN', token);
+  }
+
+  get allOwners(): string[] {
+    return Object.keys(this.ownerMap)
   }
 
   private processCollection(collection: any) {
