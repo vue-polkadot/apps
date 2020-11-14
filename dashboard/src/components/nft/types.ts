@@ -20,3 +20,10 @@ export interface Collection {
   sponsor: string;
   unconfirmedSponsor: string;
 }
+
+export interface Counter {
+  max: number;
+  last: number;
+  chunk: number;
+  remaining: number;
+}
