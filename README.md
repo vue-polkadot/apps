@@ -14,11 +14,17 @@ Basic usage is to interact from browser with Polkadot and Substrate based networ
 
 ```shell
 git clone git@github.com:vue-polkadot/apps.git
-cd dashboard;yarn
+cd dashboard
+yarn
 yarn serve
-open http://localhost:8080/
 ```
 
+Now, access apps in your browser at [http://127.0.0.1:9090/](http://127.0.0.1:9090/). You can also open the URL in your browser from another terminal session like this.
+
+```shell
+open http://localhost:9090/
+```
+ 
 ## 🏦 Stage One
 * [Accounts](https://kodadot.netlify.app/#/accounts) - It offers basic management functionality to work with Accounts
 * [Address book](https://kodadot.netlify.app/#/addressbook) - It offers basic management functionality to work with Addresses
