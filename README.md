@@ -1,3 +1,8 @@
+# ⚠️ Archived
+## This repository has been archived and we've moved on the new avenue [being NFT explorer](https://github.com/kodadot/nft-gallery)
+https://github.com/kodadot/nft-gallery
+
+
 # 📱 Apps
 
 Apps are core components of [KodaDot wallet](https://twitter.com/KodaDot).
